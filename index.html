@@ -266,8 +266,151 @@
       margin-top: 0;
     }
 
-    /* ===== Экран 2 — Признание ===== */
-    .screen-2 .screen-content {
+    /* ===== Экран 2 — Счётчик времени отношений ===== */
+    .screen-timer .timer-heading {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: #8b5a6b;
+      margin-bottom: 24px;
+    }
+
+    .screen-timer .timer-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .screen-timer .timer-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 16px 20px;
+      min-width: 80px;
+      box-shadow: 0 6px 24px rgba(139, 90, 107, 0.2);
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .screen-timer .timer-value {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: #8b5a6b;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      animation: timerPulse 2s ease-in-out infinite;
+    }
+
+    .screen-timer .timer-value.bounce {
+      animation: timerBounce 0.4s ease-out;
+    }
+
+    @keyframes timerPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.02); opacity: 0.95; }
+    }
+
+    @keyframes timerBounce {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .screen-timer .timer-label {
+      font-size: 0.85rem;
+      color: #7a6a6a;
+      margin-top: 4px;
+    }
+
+    .screen-timer .timer-footer {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 500;
+      color: #8b5a6b;
+      font-style: italic;
+      animation: timerFooterGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes timerFooterGlow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    .screen.active .timer-heading { animation: contentFadeIn 0.5s ease-out 0.05s both; }
+    .screen.active .timer-cards { animation: contentFadeIn 0.5s ease-out 0.12s both; }
+    .screen.active .timer-footer { animation: contentFadeIn 0.5s ease-out 0.2s both; }
+
+    /* ===== Экран 3 — Звёздное небо ===== */
+    .screen-stars .stars-heading {
+      font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+      color: #8b5a6b;
+      margin-bottom: 8px;
+    }
+
+    .screen-stars .stars-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: #9a7a8a;
+      margin-bottom: 16px;
+    }
+
+    .screen-stars .stars-card {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 12px 50px rgba(139, 90, 107, 0.3),
+                  inset 0 0 80px rgba(255, 200, 220, 0.15);
+      border: 4px solid rgba(255, 255, 255, 0.9);
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #1a0a1a 0%, #2d1530 40%, #1a0a1a 100%);
+    }
+
+    .screen-stars .stars-card canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .screen-stars .stars-text {
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+      color: #5c4a4a;
+      line-height: 1.7;
+      max-width: 320px;
+      margin-bottom: 20px;
+      white-space: pre-line;
+    }
+
+    .screen-stars .stars-text-line {
+      display: block;
+      opacity: 0;
+      animation: contentFadeIn 0.6s ease-out forwards;
+    }
+
+    .screen-stars .stars-text-line:nth-child(1) { animation-delay: 0.3s; display: block; }
+    .screen-stars .stars-text-line:nth-child(3) { animation-delay: 0.5s; display: block; }
+    .screen-stars .stars-text-line:nth-child(4) { animation-delay: 0.7s; display: block; }
+
+    .screen-stars .stars-card-wrap {
+      opacity: 0;
+      animation: starsCardAppear 1s ease-out 0.2s forwards;
+    }
+
+    @keyframes starsCardAppear {
+      0% {
+        opacity: 0;
+        transform: scale(0.9);
+        filter: blur(8px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+    }
+
+    .screen.active .stars-heading { animation: contentFadeIn 0.5s ease-out 0.05s both; }
+    .screen.active .stars-subtitle { animation: contentFadeIn 0.5s ease-out 0.1s both; }
+
+    /* ===== Экран 4 — Признание ===== */
+    .screen-4 .screen-content {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -276,7 +419,7 @@
       max-width: 600px;
     }
 
-    .screen-2 .screen-text {
+    .screen-4 .screen-text {
       font-size: clamp(1.15rem, 3.5vw, 1.5rem);
       color: #5c4a4a;
       line-height: 1.9;
@@ -363,14 +506,14 @@
       height: 100%;
     }
 
-    /* ===== Экран 3 — Воспоминания ===== */
-    .screen-3 .screen-heading {
+    /* ===== Экран 4 — Воспоминания ===== */
+    .screen-5 .screen-heading {
       font-size: clamp(1.6rem, 4vw, 2.2rem);
       color: #8b5a6b;
       margin-bottom: 8px;
     }
 
-    .screen-3 .screen-subtitle {
+    .screen-5 .screen-subtitle {
       font-size: clamp(1rem, 2.5vw, 1.2rem);
       color: #7a6a6a;
       line-height: 1.6;
@@ -379,19 +522,19 @@
       font-style: italic;
     }
 
-    /* ===== Экран 4 — Будущее ===== */
-    .screen-4 .screen-heading {
+    /* ===== Экран 5 — Будущее ===== */
+    .screen-6 .screen-heading {
       font-size: clamp(1.4rem, 3.5vw, 1.8rem);
       color: #8b5a6b;
       margin-bottom: 12px;
     }
 
-    .screen-4 .future-instruction {
+    .screen-6 .future-instruction {
       margin-bottom: 12px;
       padding: 14px 20px;
     }
 
-    .screen-4 .future-list {
+    .screen-6 .future-list {
       margin-bottom: 16px;
     }
 
@@ -555,7 +698,7 @@
     }
 
     /* ===== Экран 5 — Финал с видео ===== */
-    .screen-5 .screen-final-text {
+    .screen-7 .screen-final-text {
       font-size: clamp(1.3rem, 3.5vw, 1.9rem);
       font-weight: 600;
       color: #8b5a6b;
@@ -577,19 +720,19 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .screen-5 .video-wrapper:hover {
+    .screen-7 .video-wrapper:hover {
       transform: scale(1.02);
       box-shadow: 0 16px 50px rgba(139, 90, 107, 0.35);
     }
 
-    .screen-5 .video-wrapper video {
+    .screen-7 .video-wrapper video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    .screen-5 .btn-final {
+    .screen-7 .btn-final {
       background: linear-gradient(145deg, #c97b8b, #b86a7a);
       font-size: 1.2rem;
       padding: 18px 44px;
@@ -851,13 +994,32 @@
         font-size: 1rem;
       }
 
-      .screen-5 .video-wrapper {
+      .screen-7 .video-wrapper {
         width: 260px;
         max-height: 50vh;
         border-radius: 16px;
       }
 
-      .screen-4 .future-instruction {
+      .screen-timer .timer-card {
+        min-width: 70px;
+        padding: 12px 16px;
+      }
+
+      .screen-timer .timer-value {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+      }
+
+      .screen-stars .stars-card {
+        width: 240px;
+        height: 240px;
+      }
+
+      #starsCanvas {
+        width: 240px;
+        height: 240px;
+      }
+
+      .screen-6 .future-instruction {
         padding: 12px 16px;
       }
 
@@ -876,6 +1038,90 @@
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ===== Сердце-портал (переходы между экранами) ===== */
+    #heart-portal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 192, 203, 0.15);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    #heart-portal.portal-active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    #heart-portal.portal-phase2,
+    #heart-portal.portal-phase3 {
+      background: rgba(255, 182, 193, 0.4);
+    }
+
+    #heart-portal .portal-heart {
+      font-size: 60px;
+      filter: drop-shadow(0 0 20px rgba(232, 100, 150, 0.6))
+              drop-shadow(0 0 40px rgba(200, 80, 130, 0.4));
+      transform: scale(0);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    #heart-portal.portal-phase1 .portal-heart {
+      transform: scale(1);
+    }
+
+    #heart-portal.portal-phase2 .portal-heart {
+      transform: scale(18);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #heart-portal.portal-phase3 .portal-heart {
+      transform: scale(18);
+    }
+
+    #heart-portal.portal-phase4 .portal-heart {
+      transform: scale(0);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.6, 1);
+    }
+
+    #heart-portal .portal-particles {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    #heart-portal .portal-particle {
+      position: absolute;
+      font-size: 14px;
+      opacity: 0;
+      animation: portalParticleFly 0.8s ease-out forwards;
+    }
+
+    @keyframes portalParticleFly {
+      0% {
+        transform: translate(0, 0) scale(0.5);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translate(var(--px), var(--py)) scale(0);
+        opacity: 0;
       }
     }
   </style>
@@ -897,8 +1143,51 @@
       </div>
     </section>
 
-    <!-- Экран 2 — Признание -->
-    <section class="screen screen-2" data-screen="2">
+    <!-- Экран 2 — Счётчик времени отношений -->
+    <section class="screen screen-2 screen-timer" data-screen="2">
+      <h2 class="timer-heading">Мы вместе уже 💞</h2>
+      <div class="timer-cards">
+        <div class="timer-card">
+          <div class="timer-value" id="timerDays">0</div>
+          <div class="timer-label" id="timerDaysLabel">дней</div>
+        </div>
+        <div class="timer-card">
+          <div class="timer-value" id="timerHours">00</div>
+          <div class="timer-label" id="timerHoursLabel">часов</div>
+        </div>
+        <div class="timer-card">
+          <div class="timer-value" id="timerMinutes">00</div>
+          <div class="timer-label" id="timerMinutesLabel">минут</div>
+        </div>
+        <div class="timer-card">
+          <div class="timer-value" id="timerSeconds">00</div>
+          <div class="timer-label" id="timerSecondsLabel">секунд</div>
+        </div>
+      </div>
+      <p class="timer-footer">Но я хочу быть с тобой ∞</p>
+      <button class="btn btn-next" data-next="3">далее</button>
+    </section>
+
+    <!-- Экран 3 — Звёздное небо -->
+    <section class="screen screen-3 screen-stars" data-screen="3">
+      <h2 class="stars-heading">В этот день мы начали встречаться 🌌</h2>
+      <p class="stars-subtitle">10 февраля 2024</p>
+      <div class="stars-card-wrap">
+        <div class="stars-card">
+          <canvas id="starsCanvas" width="280" height="280"></canvas>
+        </div>
+      </div>
+      <p class="stars-text">
+        <span class="stars-text-line">Вот таким было небо в ту ночь…</span>
+        <br>
+        <span class="stars-text-line">Ты даже не знала,</span>
+        <span class="stars-text-line">а я уже тогда понял — это навсегда 💞</span>
+      </p>
+      <button class="btn btn-next" data-next="4">Дальше ✨</button>
+    </section>
+
+    <!-- Экран 4 — Признание -->
+    <section class="screen screen-4" data-screen="4">
       <div class="screen-content">
         <p class="screen-text">
           Ты самое лучшее, что случилось в моей жизни.<br>
@@ -916,11 +1205,11 @@
           <div class="photo-frame photo-clickable"><img src="photo8.jpeg" alt="Фото" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💓</span></div>
         </div>
       </div>
-      <button class="btn btn-next" data-next="3">и я тебя очень люблю!</button>
+      <button class="btn btn-next" data-next="5">и я тебя очень люблю!</button>
     </section>
 
-    <!-- Экран 3 — Воспоминания (как на экране 2) -->
-    <section class="screen screen-3" data-screen="3">
+    <!-- Экран 5 — Воспоминания -->
+    <section class="screen screen-5" data-screen="5">
       <h2 class="screen-heading">Наши моменты 💫</h2>
       <p class="screen-subtitle">Каждый миг и секунду проведённую с тобой я бы повторил снова и снова.</p>
       <div class="photo-frames">
@@ -934,11 +1223,11 @@
         <div class="photo-frame photo-clickable"><img src="moment8.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💓</span></div>
         <div class="photo-frame heart-style photo-clickable"><img src="moment9.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💝</span></div>
       </div>
-      <button class="btn btn-next" data-next="4">было очень хорошо!</button>
+      <button class="btn btn-next" data-next="6">было очень хорошо!</button>
     </section>
 
-    <!-- Экран 4 — Будущее -->
-    <section class="screen screen-4" data-screen="4">
+    <!-- Экран 6 — Будущее -->
+    <section class="screen screen-6" data-screen="6">
       <h2 class="screen-heading">Я хочу с тобой 💍</h2>
       <div class="future-instruction">
         <p>Нажми на каждое сердечко 💕</p>
@@ -951,11 +1240,11 @@
         <li class="future-item-clickable" data-confession="grow"><div class="future-photo photo-clickable"><img src="future4.jpeg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="photo-placeholder" style="display:none;">🌱</span></div><span class="future-heart">💕</span> Расти вместе</li>
         <li class="future-item-clickable" data-confession="love"><div class="future-photo photo-clickable"><img src="future5.jpeg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="photo-placeholder" style="display:none;">❤️</span></div><span class="future-heart">💕</span> Любить всегда</li>
       </ul>
-      <button class="btn btn-next btn-pulse" data-next="5">и я хочу!</button>
+      <button class="btn btn-next btn-pulse" data-next="7">и я хочу!</button>
     </section>
 
-    <!-- Экран 5 — Финал с видео -->
-    <section class="screen screen-5" data-screen="5">
+    <!-- Экран 7 — Финал с видео -->
+    <section class="screen screen-7" data-screen="7">
       <p class="screen-final-text">
         Ты — моя любовь ❤️<br>
         Мой дом.<br>
@@ -1015,6 +1304,12 @@
 
   <!-- Контейнер для частиц при кликах -->
   <div class="click-particles" id="clickParticles"></div>
+
+  <!-- Сердце-портал для переходов -->
+  <div id="heart-portal">
+    <div class="portal-heart">💗</div>
+    <div class="portal-particles" id="portalParticles"></div>
+  </div>
 
   <script>
     // ===== Конфигурация анимаций =====
@@ -1078,11 +1373,154 @@
       });
     }
 
+    // ===== Счётчик времени отношений =====
+    const LOVE_START = new Date(2024, 1, 10, 2, 34, 0); // 10 фев 2024, 02:34 (месяц 0-indexed)
+    let loveTimerInterval = null;
+
+    function plural(n, one, few, many) {
+      const mod10 = n % 10, mod100 = n % 100;
+      if (mod10 === 1 && mod100 !== 11) return one;
+      if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+      return many;
+    }
+
+    function updateLoveTimer() {
+      const now = new Date();
+      const diff = now - LOVE_START;
+      if (diff < 0) return;
+
+      const sec = Math.floor(diff / 1000) % 60;
+      const min = Math.floor(diff / 60000) % 60;
+      const hr = Math.floor(diff / 3600000) % 24;
+      const day = Math.floor(diff / 86400000);
+
+      const elDays = document.getElementById('timerDays');
+      const elHours = document.getElementById('timerHours');
+      const elMinutes = document.getElementById('timerMinutes');
+      const elSeconds = document.getElementById('timerSeconds');
+      const elDaysL = document.getElementById('timerDaysLabel');
+      const elHoursL = document.getElementById('timerHoursLabel');
+      const elMinutesL = document.getElementById('timerMinutesLabel');
+      const elSecondsL = document.getElementById('timerSecondsLabel');
+
+      if (elDays) {
+        elDays.textContent = day;
+        elDaysL.textContent = plural(day, 'день', 'дня', 'дней');
+      }
+      if (elHours) {
+        elHours.textContent = String(hr).padStart(2, '0');
+        elHoursL.textContent = plural(hr, 'час', 'часа', 'часов');
+      }
+      if (elMinutes) {
+        elMinutes.textContent = String(min).padStart(2, '0');
+        elMinutesL.textContent = plural(min, 'минута', 'минуты', 'минут');
+      }
+      if (elSeconds) {
+        const prevSec = parseInt(elSeconds.textContent, 10);
+        elSeconds.textContent = String(sec).padStart(2, '0');
+        elSecondsL.textContent = plural(sec, 'секунда', 'секунды', 'секунд');
+        if (prevSec !== sec && prevSec >= 0) {
+          elSeconds.classList.add('bounce');
+          setTimeout(() => elSeconds.classList.remove('bounce'), 400);
+        }
+      }
+    }
+
+    function startLoveTimer() {
+      stopLoveTimer();
+      updateLoveTimer();
+      loveTimerInterval = setInterval(updateLoveTimer, 1000);
+    }
+
+    function stopLoveTimer() {
+      if (loveTimerInterval) {
+        clearInterval(loveTimerInterval);
+        loveTimerInterval = null;
+      }
+    }
+
+    // ===== Звёздное небо =====
+    let starSkyRaf = null;
+    let starSkyZoom = 1;
+    const STAR_COUNT = 70;
+
+    function startStarSky() {
+      const canvas = document.getElementById('starsCanvas');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      const centerX = w / 2;
+      const centerY = h / 2;
+
+      const stars = [];
+      for (let i = 0; i < STAR_COUNT; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const r = Math.random() * Math.min(w, h) * 0.4;
+        stars.push({
+          x: centerX + Math.cos(angle) * r,
+          y: centerY + Math.sin(angle) * r,
+          size: 0.5 + Math.random() * 1.5,
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.02 + Math.random() * 0.03
+        });
+      }
+
+      let t = 0;
+      function draw() {
+        if (!canvas.parentElement || !canvas.parentElement.closest('.screen.active')) return;
+        starSkyRaf = requestAnimationFrame(draw);
+
+        t += 0.01;
+        starSkyZoom = 1 + Math.sin(t * 0.3) * 0.03;
+
+        ctx.fillStyle = 'rgba(26, 10, 26, 0.4)';
+        ctx.fillRect(0, 0, w, h);
+
+        const grad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, w * 0.6);
+        grad.addColorStop(0, 'rgba(180, 100, 150, 0.15)');
+        grad.addColorStop(0.5, 'rgba(80, 40, 80, 0.2)');
+        grad.addColorStop(1, 'rgba(26, 10, 26, 0.9)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.scale(starSkyZoom, starSkyZoom);
+        ctx.translate(-centerX, -centerY);
+
+        stars.forEach((s, i) => {
+          const twinkle = 0.4 + 0.6 * Math.sin(t * 2 + s.phase + i * 0.5);
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 240, 255, ${twinkle})`;
+          ctx.fill();
+        });
+
+        ctx.restore();
+      }
+      draw();
+    }
+
+    function stopStarSky() {
+      if (starSkyRaf) {
+        cancelAnimationFrame(starSkyRaf);
+        starSkyRaf = null;
+      }
+    }
+
     // ===== Навигация по экранам =====
     function goToScreen(nextNum) {
       const currentScreen = document.querySelector('.screen.active');
       const nextScreen = document.querySelector(`.screen[data-screen="${nextNum}"]`);
       if (!currentScreen || !nextScreen) return;
+
+      const currentNum = parseInt(currentScreen.dataset.screen, 10);
+      if (currentNum === 2) stopLoveTimer();
+      if (currentNum === 3) stopStarSky();
+      if (nextNum === 2) startLoveTimer();
+      if (nextNum === 3) startStarSky();
 
       currentScreen.classList.add('leaving');
       currentScreen.classList.remove('active');
@@ -1093,11 +1531,72 @@
       }, 500);
     }
 
+    // ===== Сердце-портал: анимированный переход =====
+    let isPortalTransitioning = false;
+
+    function spawnPortalParticles() {
+      const container = document.getElementById('portalParticles');
+      if (!container) return;
+      const count = 8;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'portal-particle';
+        p.textContent = HEARTS[Math.floor(Math.random() * HEARTS.length)];
+        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5;
+        const dist = 60 + Math.random() * 80;
+        p.style.setProperty('--px', Math.cos(angle) * dist + 'px');
+        p.style.setProperty('--py', Math.sin(angle) * dist + 'px');
+        container.appendChild(p);
+        setTimeout(() => p.remove(), 800);
+      }
+    }
+
+    function goToScreenWithHeart(nextNum) {
+      if (isPortalTransitioning) return;
+      const currentScreen = document.querySelector('.screen.active');
+      const nextScreen = document.querySelector(`.screen[data-screen="${nextNum}"]`);
+      if (!currentScreen || !nextScreen) return;
+
+      isPortalTransitioning = true;
+      const portal = document.getElementById('heart-portal');
+      if (!portal) {
+        goToScreen(nextNum);
+        isPortalTransitioning = false;
+        return;
+      }
+
+      spawnPortalParticles();
+
+      portal.classList.add('portal-active');
+      portal.classList.remove('portal-phase2', 'portal-phase3', 'portal-phase4');
+      portal.classList.add('portal-phase1');
+
+      setTimeout(() => {
+        portal.classList.remove('portal-phase1');
+        portal.classList.add('portal-phase2');
+      }, 250);
+
+      setTimeout(() => {
+        portal.classList.add('portal-phase3');
+        goToScreen(nextNum);
+      }, 650);
+
+      setTimeout(() => {
+        portal.classList.remove('portal-phase3');
+        portal.classList.add('portal-phase4');
+      }, 700);
+
+      setTimeout(() => {
+        portal.classList.remove('portal-active', 'portal-phase1', 'portal-phase2', 'portal-phase3', 'portal-phase4');
+        isPortalTransitioning = false;
+      }, 1100);
+    }
+
     document.querySelectorAll('.btn-next').forEach(btn => {
       setupButtonEffects(btn);
       btn.addEventListener('click', () => {
         const next = parseInt(btn.dataset.next, 10);
-        goToScreen(next);
+        goToScreenWithHeart(next);
       });
     });
 
