@@ -18,11 +18,11 @@
       font-family: 'Georgia', 'Times New Roman', serif;
     }
 
-    /* ===== Живой фон с градиентом ===== */
+    /* ===== Живой фон с мягким градиентом ===== */
     body {
-      background: linear-gradient(135deg, #ffe4ec 0%, #ffd6e0 25%, #ffe8f0 50%, #ffdce6 75%, #ffe4ec 100%);
+      background: linear-gradient(160deg, #fff5f8 0%, #ffe8ef 30%, #fff0f5 60%, #ffeef3 100%);
       background-size: 400% 400%;
-      animation: bgGradient 15s ease infinite;
+      animation: bgGradient 18s ease infinite;
       position: relative;
       min-height: 100vh;
     }
@@ -32,16 +32,16 @@
       50% { background-position: 100% 50%; }
     }
 
-    /* ===== Блёстки на фоне ===== */
+    /* ===== Блёстки на фоне (мягкие) ===== */
     .sparkle {
       position: fixed;
-      width: 4px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.8);
+      width: 3px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.6);
       border-radius: 50%;
       pointer-events: none;
       z-index: 0;
-      animation: sparkleFade 3s ease-in-out infinite;
+      animation: sparkleFade 4s ease-in-out infinite;
     }
 
     @keyframes sparkleFade {
@@ -122,24 +122,34 @@
 
     .screen.leaving {
       opacity: 0;
-      transform: translateY(-15px) scale(0.98);
+      transform: scale(0.97);
     }
 
-    /* Контент экрана появляется с лёгкой задержкой */
-    .screen.active .screen-content { animation: contentFadeIn 0.5s ease-out 0.05s both; }
-    .screen.active .screen-title { animation: contentFadeIn 0.5s ease-out 0.1s both; }
-    .screen.active .screen-heading { animation: contentFadeIn 0.5s ease-out 0.08s both; }
-    .screen.active .screen-subtitle { animation: contentFadeIn 0.5s ease-out 0.12s both; }
-    .screen.active .screen-text { animation: contentFadeIn 0.5s ease-out 0.08s both; }
-    .screen.active .photo-frames { animation: contentFadeIn 0.5s ease-out 0.15s both; }
-    .screen.active .future-list { animation: contentFadeIn 0.5s ease-out 0.12s both; }
-    .screen.active .future-instruction { animation: contentFadeIn 0.5s ease-out 0.1s both; }
-    .screen.active .video-wrapper { animation: contentFadeIn 0.5s ease-out 0.1s both; }
-    .screen.active .screen-final-text { animation: contentFadeIn 0.5s ease-out 0.08s both; }
+    /* Stagger-анимации при появлении */
+    .screen.active .screen-content { animation: elemSlideFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.05s both; }
+    .screen.active .screen-title { animation: elemSlideFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.08s both; }
+    .screen.active .screen-heading { animation: elemSlideFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.08s both; }
+    .screen.active .screen-subtitle { animation: elemSlideFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.12s both; }
+    .screen.active .screen-text { animation: elemSlideFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s both; }
+    .screen.active .photo-frames { animation: elemSlideFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.18s both; }
+    .screen.active .future-list li:nth-child(1) { animation: elemSlideFade 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.18s both; }
+    .screen.active .future-list li:nth-child(2) { animation: elemSlideFade 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.28s both; }
+    .screen.active .future-list li:nth-child(3) { animation: elemSlideFade 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.38s both; }
+    .screen.active .future-list li:nth-child(4) { animation: elemSlideFade 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.48s both; }
+    .screen.active .future-instruction { animation: elemSlideFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.12s both; }
+    .screen.active .video-wrapper { animation: elemSlideFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.14s both; }
+    .screen.active .screen-final-text { animation: elemSlideFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.08s both; }
+    .screen.active .timer-compact { animation: elemSlideFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s both; }
+    .screen.active .btn { animation: elemScaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both; }
 
-    @keyframes contentFadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+    @keyframes elemSlideFade {
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes elemScaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     /* ===== Кнопки — живые ===== */
@@ -150,19 +160,19 @@
       font-size: 1.1rem;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-weight: 500;
-      background: linear-gradient(145deg, #e8a0b8, #d4849a);
+      background: linear-gradient(145deg, #e8b4c4, #d99aaa);
       color: white;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(200, 100, 130, 0.4);
+      box-shadow: 0 4px 20px rgba(180, 110, 135, 0.25);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       margin-top: auto;
     }
 
     .btn:hover, .btn:focus-visible {
-      transform: scale(1.06);
-      box-shadow: 0 10px 35px rgba(200, 100, 130, 0.55);
+      transform: scale(1.04);
+      box-shadow: 0 8px 28px rgba(180, 110, 135, 0.35);
     }
 
     .btn:active {
@@ -196,8 +206,8 @@
     }
 
     @keyframes btnHeartbeat {
-      0%, 100% { transform: scale(1); box-shadow: 0 6px 20px rgba(200, 100, 130, 0.4); }
-      50% { transform: scale(1.02); box-shadow: 0 8px 28px rgba(200, 100, 130, 0.5); }
+      0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(180, 110, 135, 0.25); }
+      50% { transform: scale(1.02); box-shadow: 0 6px 24px rgba(180, 110, 135, 0.32); }
     }
 
     .btn:hover.btn-pulse, .btn:active.btn-pulse {
@@ -231,7 +241,7 @@
       border-radius: 24px;
       overflow: hidden;
       background: #fff;
-      box-shadow: 0 10px 40px rgba(139, 90, 107, 0.25);
+      box-shadow: 0 8px 32px rgba(139, 90, 107, 0.12);
       border: 5px solid rgba(255, 255, 255, 0.95);
       transition: transform 0.35s ease, box-shadow 0.35s ease;
       display: flex;
@@ -242,8 +252,8 @@
     }
 
     .screen-1 .start-photo:hover, .screen-1 .start-photo:active {
-      transform: scale(1.05) perspective(500px) rotateX(2deg) rotateY(-2deg);
-      box-shadow: 0 18px 55px rgba(139, 90, 107, 0.35);
+      transform: scale(1.04) perspective(500px) rotateX(2deg) rotateY(-2deg);
+      box-shadow: 0 12px 40px rgba(139, 90, 107, 0.2);
     }
 
     .screen-1 .start-photo img {
@@ -266,151 +276,39 @@
       margin-top: 0;
     }
 
-    /* ===== Экран 2 — Счётчик времени отношений ===== */
-    .screen-timer .timer-heading {
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
-      color: #8b5a6b;
-      margin-bottom: 24px;
-    }
-
-    .screen-timer .timer-cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .screen-timer .timer-card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 16px;
-      padding: 16px 20px;
-      min-width: 80px;
-      box-shadow: 0 6px 24px rgba(139, 90, 107, 0.2);
-      border: 3px solid rgba(255, 255, 255, 0.9);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .screen-timer .timer-value {
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      font-weight: 700;
-      color: #8b5a6b;
+    /* ===== Таймер на экране видео (компактный) ===== */
+    .screen-5 .timer-compact {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 12px;
+      padding: 12px 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 24px rgba(139, 90, 107, 0.08);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      animation: timerPulse 2s ease-in-out infinite;
     }
 
-    .screen-timer .timer-value.bounce {
-      animation: timerBounce 0.4s ease-out;
-    }
-
-    @keyframes timerPulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.02); opacity: 0.95; }
-    }
-
-    @keyframes timerBounce {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
-
-    .screen-timer .timer-label {
-      font-size: 0.85rem;
-      color: #7a6a6a;
-      margin-top: 4px;
-    }
-
-    .screen-timer .timer-footer {
-      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-      font-weight: 500;
-      color: #8b5a6b;
-      font-style: italic;
-      animation: timerFooterGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes timerFooterGlow {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.85; }
-    }
-
-    .screen.active .timer-heading { animation: contentFadeIn 0.5s ease-out 0.05s both; }
-    .screen.active .timer-cards { animation: contentFadeIn 0.5s ease-out 0.12s both; }
-    .screen.active .timer-footer { animation: contentFadeIn 0.5s ease-out 0.2s both; }
-
-    /* ===== Экран 3 — Звёздное небо ===== */
-    .screen-stars .stars-heading {
-      font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+    .screen-5 .timer-compact-heading {
+      font-size: 0.9rem;
       color: #8b5a6b;
       margin-bottom: 8px;
     }
 
-    .screen-stars .stars-subtitle {
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
+    .screen-5 .timer-compact-values {
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+      color: #6b5a5a;
+      line-height: 1.5;
+    }
+
+    .screen-5 .timer-compact-footer {
+      font-size: 0.85rem;
       color: #9a7a8a;
-      margin-bottom: 16px;
+      margin-top: 8px;
+      font-style: italic;
     }
 
-    .screen-stars .stars-card {
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-      box-shadow: 0 12px 50px rgba(139, 90, 107, 0.3),
-                  inset 0 0 80px rgba(255, 200, 220, 0.15);
-      border: 4px solid rgba(255, 255, 255, 0.9);
-      margin-bottom: 20px;
-      background: linear-gradient(180deg, #1a0a1a 0%, #2d1530 40%, #1a0a1a 100%);
-    }
-
-    .screen-stars .stars-card canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .screen-stars .stars-text {
-      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
-      color: #5c4a4a;
-      line-height: 1.7;
-      max-width: 320px;
-      margin-bottom: 20px;
-      white-space: pre-line;
-    }
-
-    .screen-stars .stars-text-line {
-      display: block;
-      opacity: 0;
-      animation: contentFadeIn 0.6s ease-out forwards;
-    }
-
-    .screen-stars .stars-text-line:nth-child(1) { animation-delay: 0.3s; display: block; }
-    .screen-stars .stars-text-line:nth-child(3) { animation-delay: 0.5s; display: block; }
-    .screen-stars .stars-text-line:nth-child(4) { animation-delay: 0.7s; display: block; }
-
-    .screen-stars .stars-card-wrap {
-      opacity: 0;
-      animation: starsCardAppear 1s ease-out 0.2s forwards;
-    }
-
-    @keyframes starsCardAppear {
-      0% {
-        opacity: 0;
-        transform: scale(0.9);
-        filter: blur(8px);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(0);
-      }
-    }
-
-    .screen.active .stars-heading { animation: contentFadeIn 0.5s ease-out 0.05s both; }
-    .screen.active .stars-subtitle { animation: contentFadeIn 0.5s ease-out 0.1s both; }
-
-    /* ===== Экран 4 — Признание ===== */
-    .screen-4 .screen-content {
+    /* ===== Экран 2 — Признание ===== */
+    .screen-2 .screen-content {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -419,14 +317,15 @@
       max-width: 600px;
     }
 
-    .screen-4 .screen-text {
+    .screen-2 .screen-text {
       font-size: clamp(1.15rem, 3.5vw, 1.5rem);
       color: #5c4a4a;
       line-height: 1.9;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(8px);
       padding: 28px 28px;
       border-radius: 24px;
-      box-shadow: 0 10px 40px rgba(139, 90, 107, 0.12);
+      box-shadow: 0 6px 28px rgba(139, 90, 107, 0.08);
     }
 
     /* Рамки для фото на экране 2 */
@@ -444,7 +343,7 @@
       border-radius: 20px;
       overflow: hidden;
       background: #fff;
-      box-shadow: 0 6px 20px rgba(139, 90, 107, 0.15);
+      box-shadow: 0 4px 20px rgba(139, 90, 107, 0.1);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -506,14 +405,14 @@
       height: 100%;
     }
 
-    /* ===== Экран 4 — Воспоминания ===== */
-    .screen-5 .screen-heading {
+    /* ===== Экран 3 — Воспоминания ===== */
+    .screen-3 .screen-heading {
       font-size: clamp(1.6rem, 4vw, 2.2rem);
       color: #8b5a6b;
       margin-bottom: 8px;
     }
 
-    .screen-5 .screen-subtitle {
+    .screen-3 .screen-subtitle {
       font-size: clamp(1rem, 2.5vw, 1.2rem);
       color: #7a6a6a;
       line-height: 1.6;
@@ -522,19 +421,19 @@
       font-style: italic;
     }
 
-    /* ===== Экран 5 — Будущее ===== */
-    .screen-6 .screen-heading {
+    /* ===== Экран 4 — Будущее ===== */
+    .screen-4 .screen-heading {
       font-size: clamp(1.4rem, 3.5vw, 1.8rem);
       color: #8b5a6b;
       margin-bottom: 12px;
     }
 
-    .screen-6 .future-instruction {
+    .screen-4 .future-instruction {
       margin-bottom: 12px;
       padding: 14px 20px;
     }
 
-    .screen-6 .future-list {
+    .screen-4 .future-list {
       margin-bottom: 16px;
     }
 
@@ -549,11 +448,12 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 10px 16px;
-      margin-bottom: 8px;
-      background: rgba(255, 255, 255, 0.7);
+      padding: 12px 18px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(6px);
       border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(139, 90, 107, 0.08);
+      box-shadow: 0 2px 12px rgba(139, 90, 107, 0.06);
       font-size: 1.1rem;
       color: #5c4a4a;
       text-align: left;
@@ -561,8 +461,8 @@
     }
 
     .future-list li:hover, .future-list li:active {
-      transform: translateX(8px);
-      box-shadow: 0 6px 24px rgba(139, 90, 107, 0.15);
+      transform: translateX(6px);
+      box-shadow: 0 4px 18px rgba(139, 90, 107, 0.1);
     }
 
     .future-list .future-photo {
@@ -697,8 +597,8 @@
       transform: scale(1.02);
     }
 
-    /* ===== Экран 5 — Финал с видео ===== */
-    .screen-7 .screen-final-text {
+    /* ===== Экран 5 — Финал с видео и таймером ===== */
+    .screen-5 .screen-final-text {
       font-size: clamp(1.3rem, 3.5vw, 1.9rem);
       font-weight: 600;
       color: #8b5a6b;
@@ -714,25 +614,25 @@
       max-height: 55vh;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 12px 40px rgba(139, 90, 107, 0.25);
+      box-shadow: 0 8px 32px rgba(139, 90, 107, 0.12);
       background: #1a1a1a;
       margin-bottom: 16px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .screen-7 .video-wrapper:hover {
+    .screen-5 .video-wrapper:hover {
       transform: scale(1.02);
       box-shadow: 0 16px 50px rgba(139, 90, 107, 0.35);
     }
 
-    .screen-7 .video-wrapper video {
+    .screen-5 .video-wrapper video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    .screen-7 .btn-final {
+    .screen-5 .btn-final {
       background: linear-gradient(145deg, #c97b8b, #b86a7a);
       font-size: 1.2rem;
       padding: 18px 44px;
@@ -994,32 +894,13 @@
         font-size: 1rem;
       }
 
-      .screen-7 .video-wrapper {
+      .screen-5 .video-wrapper {
         width: 260px;
         max-height: 50vh;
         border-radius: 16px;
       }
 
-      .screen-timer .timer-card {
-        min-width: 70px;
-        padding: 12px 16px;
-      }
-
-      .screen-timer .timer-value {
-        font-size: clamp(1.5rem, 4vw, 2rem);
-      }
-
-      .screen-stars .stars-card {
-        width: 240px;
-        height: 240px;
-      }
-
-      #starsCanvas {
-        width: 240px;
-        height: 240px;
-      }
-
-      .screen-6 .future-instruction {
+      .screen-4 .future-instruction {
         padding: 12px 16px;
       }
 
@@ -1041,88 +922,58 @@
       }
     }
 
-    /* ===== Сердце-портал (переходы между экранами) ===== */
-    #heart-portal {
+    /* ===== Soft Fade + Zoom переходы ===== */
+    .screen-transition-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 9999;
+      z-index: 9998;
       pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 192, 203, 0.15);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      background: linear-gradient(180deg,
+        rgba(255, 180, 200, 0.08) 0%,
+        rgba(220, 170, 200, 0.06) 35%,
+        rgba(200, 160, 210, 0.04) 70%,
+        transparent 100%);
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.25s ease, visibility 0.25s ease;
+      transition: opacity 0.35s ease-out;
     }
 
-    #heart-portal.portal-active {
+    .screen-transition-overlay.active {
       opacity: 1;
       visibility: visible;
-      pointer-events: auto;
     }
 
-    #heart-portal.portal-phase2,
-    #heart-portal.portal-phase3 {
-      background: rgba(255, 182, 193, 0.4);
+    .screen.leaving {
+      opacity: 0 !important;
+      transform: scale(0.97) translateZ(0) !important;
+      -webkit-transform: scale(0.97) translateZ(0) !important;
+      filter: blur(4px);
+      -webkit-filter: blur(4px);
+      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  filter 0.4s ease-out !important;
     }
 
-    #heart-portal .portal-heart {
-      font-size: 60px;
-      filter: drop-shadow(0 0 20px rgba(232, 100, 150, 0.6))
-              drop-shadow(0 0 40px rgba(200, 80, 130, 0.4));
-      transform: scale(0);
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    #heart-portal.portal-phase1 .portal-heart {
-      transform: scale(1);
-    }
-
-    #heart-portal.portal-phase2 .portal-heart {
-      transform: scale(18);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    #heart-portal.portal-phase3 .portal-heart {
-      transform: scale(18);
-    }
-
-    #heart-portal.portal-phase4 .portal-heart {
-      transform: scale(0);
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.6, 1);
-    }
-
-    #heart-portal .portal-particles {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      pointer-events: none;
-    }
-
-    #heart-portal .portal-particle {
-      position: absolute;
-      font-size: 14px;
+    .screen.entering {
       opacity: 0;
-      animation: portalParticleFly 0.8s ease-out forwards;
+      transform: scale(1.03) translateZ(0);
+      -webkit-transform: scale(1.03) translateZ(0);
+      filter: blur(4px);
+      -webkit-filter: blur(4px);
     }
 
-    @keyframes portalParticleFly {
-      0% {
-        transform: translate(0, 0) scale(0.5);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translate(var(--px), var(--py)) scale(0);
-        opacity: 0;
-      }
+    .screen.entering.ready {
+      opacity: 1;
+      transform: scale(1) translateZ(0);
+      -webkit-transform: scale(1) translateZ(0);
+      filter: blur(0);
+      -webkit-filter: blur(0);
+      transition: opacity 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  filter 0.35s ease-out;
     }
   </style>
 </head>
@@ -1143,51 +994,8 @@
       </div>
     </section>
 
-    <!-- Экран 2 — Счётчик времени отношений -->
-    <section class="screen screen-2 screen-timer" data-screen="2">
-      <h2 class="timer-heading">Мы вместе уже 💞</h2>
-      <div class="timer-cards">
-        <div class="timer-card">
-          <div class="timer-value" id="timerDays">0</div>
-          <div class="timer-label" id="timerDaysLabel">дней</div>
-        </div>
-        <div class="timer-card">
-          <div class="timer-value" id="timerHours">00</div>
-          <div class="timer-label" id="timerHoursLabel">часов</div>
-        </div>
-        <div class="timer-card">
-          <div class="timer-value" id="timerMinutes">00</div>
-          <div class="timer-label" id="timerMinutesLabel">минут</div>
-        </div>
-        <div class="timer-card">
-          <div class="timer-value" id="timerSeconds">00</div>
-          <div class="timer-label" id="timerSecondsLabel">секунд</div>
-        </div>
-      </div>
-      <p class="timer-footer">Но я хочу быть с тобой ∞</p>
-      <button class="btn btn-next" data-next="3">далее</button>
-    </section>
-
-    <!-- Экран 3 — Звёздное небо -->
-    <section class="screen screen-3 screen-stars" data-screen="3">
-      <h2 class="stars-heading">В этот день мы начали встречаться 🌌</h2>
-      <p class="stars-subtitle">10 февраля 2024</p>
-      <div class="stars-card-wrap">
-        <div class="stars-card">
-          <canvas id="starsCanvas" width="280" height="280"></canvas>
-        </div>
-      </div>
-      <p class="stars-text">
-        <span class="stars-text-line">Вот таким было небо в ту ночь…</span>
-        <br>
-        <span class="stars-text-line">Ты даже не знала,</span>
-        <span class="stars-text-line">а я уже тогда понял — это навсегда 💞</span>
-      </p>
-      <button class="btn btn-next" data-next="4">Дальше ✨</button>
-    </section>
-
-    <!-- Экран 4 — Признание -->
-    <section class="screen screen-4" data-screen="4">
+    <!-- Экран 2 — Признание -->
+    <section class="screen screen-2" data-screen="2">
       <div class="screen-content">
         <p class="screen-text">
           Ты самое лучшее, что случилось в моей жизни.<br>
@@ -1205,11 +1013,11 @@
           <div class="photo-frame photo-clickable"><img src="photo8.jpeg" alt="Фото" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💓</span></div>
         </div>
       </div>
-      <button class="btn btn-next" data-next="5">и я тебя очень люблю!</button>
+      <button class="btn btn-next" data-next="3">и я тебя очень люблю!</button>
     </section>
 
-    <!-- Экран 5 — Воспоминания -->
-    <section class="screen screen-5" data-screen="5">
+    <!-- Экран 3 — Воспоминания -->
+    <section class="screen screen-3" data-screen="3">
       <h2 class="screen-heading">Наши моменты 💫</h2>
       <p class="screen-subtitle">Каждый миг и секунду проведённую с тобой я бы повторил снова и снова.</p>
       <div class="photo-frames">
@@ -1223,11 +1031,11 @@
         <div class="photo-frame photo-clickable"><img src="moment8.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💓</span></div>
         <div class="photo-frame heart-style photo-clickable"><img src="moment9.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💝</span></div>
       </div>
-      <button class="btn btn-next" data-next="6">было очень хорошо!</button>
+      <button class="btn btn-next" data-next="4">было очень хорошо!</button>
     </section>
 
-    <!-- Экран 6 — Будущее -->
-    <section class="screen screen-6" data-screen="6">
+    <!-- Экран 4 — Будущее -->
+    <section class="screen screen-4" data-screen="4">
       <h2 class="screen-heading">Я хочу с тобой 💍</h2>
       <div class="future-instruction">
         <p>Нажми на каждое сердечко 💕</p>
@@ -1240,16 +1048,21 @@
         <li class="future-item-clickable" data-confession="grow"><div class="future-photo photo-clickable"><img src="future4.jpeg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="photo-placeholder" style="display:none;">🌱</span></div><span class="future-heart">💕</span> Расти вместе</li>
         <li class="future-item-clickable" data-confession="love"><div class="future-photo photo-clickable"><img src="future5.jpeg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="photo-placeholder" style="display:none;">❤️</span></div><span class="future-heart">💕</span> Любить всегда</li>
       </ul>
-      <button class="btn btn-next btn-pulse" data-next="7">и я хочу!</button>
+      <button class="btn btn-next btn-pulse" data-next="5">и я хочу!</button>
     </section>
 
-    <!-- Экран 7 — Финал с видео -->
-    <section class="screen screen-7" data-screen="7">
+    <!-- Экран 5 — Финал с видео и таймером -->
+    <section class="screen screen-5" data-screen="5">
       <p class="screen-final-text">
         Ты — моя любовь ❤️<br>
         Мой дом.<br>
         Моё всё.
       </p>
+      <div class="timer-compact">
+        <div class="timer-compact-heading">Мы вместе уже 💞</div>
+        <div class="timer-compact-values" id="timerCompact">0 дней 00 часов 00 минут 00 секунд</div>
+        <div class="timer-compact-footer">Но я хочу быть с тобой ∞</div>
+      </div>
       <div class="video-wrapper">
         <video id="loveVideo"
                playsinline
@@ -1305,11 +1118,8 @@
   <!-- Контейнер для частиц при кликах -->
   <div class="click-particles" id="clickParticles"></div>
 
-  <!-- Сердце-портал для переходов -->
-  <div id="heart-portal">
-    <div class="portal-heart">💗</div>
-    <div class="portal-particles" id="portalParticles"></div>
-  </div>
+  <!-- Overlay для мягкого перехода -->
+  <div class="screen-transition-overlay" id="transitionOverlay"></div>
 
   <script>
     // ===== Конфигурация анимаций =====
@@ -1394,35 +1204,13 @@
       const hr = Math.floor(diff / 3600000) % 24;
       const day = Math.floor(diff / 86400000);
 
-      const elDays = document.getElementById('timerDays');
-      const elHours = document.getElementById('timerHours');
-      const elMinutes = document.getElementById('timerMinutes');
-      const elSeconds = document.getElementById('timerSeconds');
-      const elDaysL = document.getElementById('timerDaysLabel');
-      const elHoursL = document.getElementById('timerHoursLabel');
-      const elMinutesL = document.getElementById('timerMinutesLabel');
-      const elSecondsL = document.getElementById('timerSecondsLabel');
-
-      if (elDays) {
-        elDays.textContent = day;
-        elDaysL.textContent = plural(day, 'день', 'дня', 'дней');
-      }
-      if (elHours) {
-        elHours.textContent = String(hr).padStart(2, '0');
-        elHoursL.textContent = plural(hr, 'час', 'часа', 'часов');
-      }
-      if (elMinutes) {
-        elMinutes.textContent = String(min).padStart(2, '0');
-        elMinutesL.textContent = plural(min, 'минута', 'минуты', 'минут');
-      }
-      if (elSeconds) {
-        const prevSec = parseInt(elSeconds.textContent, 10);
-        elSeconds.textContent = String(sec).padStart(2, '0');
-        elSecondsL.textContent = plural(sec, 'секунда', 'секунды', 'секунд');
-        if (prevSec !== sec && prevSec >= 0) {
-          elSeconds.classList.add('bounce');
-          setTimeout(() => elSeconds.classList.remove('bounce'), 400);
-        }
+      const el = document.getElementById('timerCompact');
+      if (el) {
+        const d = plural(day, 'день', 'дня', 'дней');
+        const h = plural(hr, 'час', 'часа', 'часов');
+        const m = plural(min, 'минута', 'минуты', 'минут');
+        const s = plural(sec, 'секунда', 'секунды', 'секунд');
+        el.textContent = `${day} ${d} ${String(hr).padStart(2, '0')} ${h} ${String(min).padStart(2, '0')} ${m} ${String(sec).padStart(2, '0')} ${s}`;
       }
     }
 
@@ -1439,164 +1227,48 @@
       }
     }
 
-    // ===== Звёздное небо =====
-    let starSkyRaf = null;
-    let starSkyZoom = 1;
-    const STAR_COUNT = 70;
+    // ===== Soft Fade + Zoom: плавные переходы =====
+    let isTransitioning = false;
+    const TRANSITION_DURATION = 450;
 
-    function startStarSky() {
-      const canvas = document.getElementById('starsCanvas');
-      if (!canvas) return;
-
-      const ctx = canvas.getContext('2d');
-      const w = canvas.width;
-      const h = canvas.height;
-      const centerX = w / 2;
-      const centerY = h / 2;
-
-      const stars = [];
-      for (let i = 0; i < STAR_COUNT; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const r = Math.random() * Math.min(w, h) * 0.4;
-        stars.push({
-          x: centerX + Math.cos(angle) * r,
-          y: centerY + Math.sin(angle) * r,
-          size: 0.5 + Math.random() * 1.5,
-          phase: Math.random() * Math.PI * 2,
-          speed: 0.02 + Math.random() * 0.03
-        });
-      }
-
-      let t = 0;
-      function draw() {
-        if (!canvas.parentElement || !canvas.parentElement.closest('.screen.active')) return;
-        starSkyRaf = requestAnimationFrame(draw);
-
-        t += 0.01;
-        starSkyZoom = 1 + Math.sin(t * 0.3) * 0.03;
-
-        ctx.fillStyle = 'rgba(26, 10, 26, 0.4)';
-        ctx.fillRect(0, 0, w, h);
-
-        const grad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, w * 0.6);
-        grad.addColorStop(0, 'rgba(180, 100, 150, 0.15)');
-        grad.addColorStop(0.5, 'rgba(80, 40, 80, 0.2)');
-        grad.addColorStop(1, 'rgba(26, 10, 26, 0.9)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, w, h);
-
-        ctx.save();
-        ctx.translate(centerX, centerY);
-        ctx.scale(starSkyZoom, starSkyZoom);
-        ctx.translate(-centerX, -centerY);
-
-        stars.forEach((s, i) => {
-          const twinkle = 0.4 + 0.6 * Math.sin(t * 2 + s.phase + i * 0.5);
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 240, 255, ${twinkle})`;
-          ctx.fill();
-        });
-
-        ctx.restore();
-      }
-      draw();
-    }
-
-    function stopStarSky() {
-      if (starSkyRaf) {
-        cancelAnimationFrame(starSkyRaf);
-        starSkyRaf = null;
-      }
-    }
-
-    // ===== Навигация по экранам =====
-    function goToScreen(nextNum) {
+    function goToScreenSmooth(nextNum) {
+      if (isTransitioning) return;
       const currentScreen = document.querySelector('.screen.active');
       const nextScreen = document.querySelector(`.screen[data-screen="${nextNum}"]`);
       if (!currentScreen || !nextScreen) return;
 
-      const currentNum = parseInt(currentScreen.dataset.screen, 10);
-      if (currentNum === 2) stopLoveTimer();
-      if (currentNum === 3) stopStarSky();
-      if (nextNum === 2) startLoveTimer();
-      if (nextNum === 3) startStarSky();
+      isTransitioning = true;
+      const overlay = document.getElementById('transitionOverlay');
 
+      if (nextNum === 5) startLoveTimer();
+      if (parseInt(currentScreen.dataset.screen, 10) === 5) stopLoveTimer();
+
+      if (overlay) overlay.classList.add('active');
       currentScreen.classList.add('leaving');
       currentScreen.classList.remove('active');
 
+      nextScreen.classList.add('entering');
+      nextScreen.classList.add('active');
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          nextScreen.classList.add('ready');
+        });
+      });
+
       setTimeout(() => {
         currentScreen.classList.remove('leaving');
-        nextScreen.classList.add('active');
-      }, 500);
-    }
-
-    // ===== Сердце-портал: анимированный переход =====
-    let isPortalTransitioning = false;
-
-    function spawnPortalParticles() {
-      const container = document.getElementById('portalParticles');
-      if (!container) return;
-      const count = 8;
-      for (let i = 0; i < count; i++) {
-        const p = document.createElement('div');
-        p.className = 'portal-particle';
-        p.textContent = HEARTS[Math.floor(Math.random() * HEARTS.length)];
-        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5;
-        const dist = 60 + Math.random() * 80;
-        p.style.setProperty('--px', Math.cos(angle) * dist + 'px');
-        p.style.setProperty('--py', Math.sin(angle) * dist + 'px');
-        container.appendChild(p);
-        setTimeout(() => p.remove(), 800);
-      }
-    }
-
-    function goToScreenWithHeart(nextNum) {
-      if (isPortalTransitioning) return;
-      const currentScreen = document.querySelector('.screen.active');
-      const nextScreen = document.querySelector(`.screen[data-screen="${nextNum}"]`);
-      if (!currentScreen || !nextScreen) return;
-
-      isPortalTransitioning = true;
-      const portal = document.getElementById('heart-portal');
-      if (!portal) {
-        goToScreen(nextNum);
-        isPortalTransitioning = false;
-        return;
-      }
-
-      spawnPortalParticles();
-
-      portal.classList.add('portal-active');
-      portal.classList.remove('portal-phase2', 'portal-phase3', 'portal-phase4');
-      portal.classList.add('portal-phase1');
-
-      setTimeout(() => {
-        portal.classList.remove('portal-phase1');
-        portal.classList.add('portal-phase2');
-      }, 250);
-
-      setTimeout(() => {
-        portal.classList.add('portal-phase3');
-        goToScreen(nextNum);
-      }, 650);
-
-      setTimeout(() => {
-        portal.classList.remove('portal-phase3');
-        portal.classList.add('portal-phase4');
-      }, 700);
-
-      setTimeout(() => {
-        portal.classList.remove('portal-active', 'portal-phase1', 'portal-phase2', 'portal-phase3', 'portal-phase4');
-        isPortalTransitioning = false;
-      }, 1100);
+        nextScreen.classList.remove('entering', 'ready');
+        if (overlay) overlay.classList.remove('active');
+        isTransitioning = false;
+      }, TRANSITION_DURATION + 50);
     }
 
     document.querySelectorAll('.btn-next').forEach(btn => {
       setupButtonEffects(btn);
       btn.addEventListener('click', () => {
         const next = parseInt(btn.dataset.next, 10);
-        goToScreenWithHeart(next);
+        goToScreenSmooth(next);
       });
     });
 
