@@ -585,7 +585,7 @@
     .screen-5 .video-wrapper video {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       display: block;
     }
 
@@ -617,11 +617,71 @@
       visibility: visible;
     }
 
+    .forever-overlay .forever-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      padding: 20px;
+    }
+
     .forever-message {
       font-size: clamp(1.8rem, 5vw, 2.8rem);
       font-weight: 600;
       color: #8b5a6b;
       animation: pulseText 1.5s ease-in-out infinite;
+    }
+
+    .forever-overlay .cat-section {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .forever-overlay .cat-photos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .forever-overlay.cat-visible .forever-message,
+    .forever-overlay.cat-visible .btn-this-all {
+      display: none;
+    }
+
+    .forever-overlay.cat-visible .cat-section {
+      display: flex;
+      animation: contentFadeIn 0.5s ease-out;
+    }
+
+    .forever-overlay .cat-photo-wrap {
+      width: 220px;
+      height: 220px;
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 12px 40px rgba(139, 90, 107, 0.3);
+      border: 4px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .forever-overlay .cat-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .forever-overlay .cat-caption {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: #8b5a6b;
+      font-weight: 500;
+      line-height: 1.5;
+      max-width: 320px;
     }
 
     @keyframes pulseText {
@@ -931,7 +991,23 @@
 
   <!-- Оверлей "Навсегда с тобой" -->
   <div class="forever-overlay" id="foreverOverlay">
-    <p class="forever-message">Навсегда с тобой 💖</p>
+    <div class="forever-content">
+      <p class="forever-message">Навсегда с тобой 💖</p>
+      <button class="btn btn-this-all" id="btnThisAll">Это все?</button>
+      <div class="cat-section">
+        <div class="cat-photos">
+          <div class="cat-photo-wrap">
+            <img src="cat.jpeg" alt="Котик" class="cat-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <span class="photo-placeholder" style="display:none; font-size:4rem;">🐱</span>
+          </div>
+          <div class="cat-photo-wrap">
+            <img src="cat2.jpeg" alt="Котик" class="cat-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <span class="photo-placeholder" style="display:none; font-size:4rem;">🐱</span>
+          </div>
+        </div>
+        <p class="cat-caption">Сенькообразный ишачок тоже любит тебя</p>
+      </div>
+    </div>
   </div>
 
   <!-- Контейнер для фейерверков -->
@@ -1212,6 +1288,15 @@
 
     setupButtonEffects(confessionModalClose);
     confessionModalClose.addEventListener('click', closeConfessionModal);
+
+    // ===== Кнопка "Это все?" — показывает котика =====
+    const btnThisAll = document.getElementById('btnThisAll');
+    if (btnThisAll && foreverOverlay) {
+      setupButtonEffects(btnThisAll);
+      btnThisAll.addEventListener('click', () => {
+        foreverOverlay.classList.add('cat-visible');
+      });
+    }
     confessionModal.addEventListener('click', (e) => {
       if (e.target === confessionModal) closeConfessionModal();
     });
