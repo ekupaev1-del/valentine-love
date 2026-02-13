@@ -235,6 +235,7 @@
     .photo-frame:nth-child(6) { transform: rotate(2deg); }
     .photo-frame:nth-child(7) { transform: rotate(-3deg); }
     .photo-frame:nth-child(8) { transform: rotate(4deg); }
+    .photo-frame:nth-child(9) { transform: rotate(-2deg); }
 
     .photo-frame:hover {
       transform: scale(1.08) rotate(0deg) !important;
@@ -278,12 +279,7 @@
       height: 100%;
     }
 
-    /* ===== Экран 3 — Воспоминания (разбросаны по странице) ===== */
-    .screen-3 {
-      position: relative;
-      min-height: 100vh;
-    }
-
+    /* ===== Экран 3 — Воспоминания ===== */
     .screen-3 .screen-heading {
       font-size: clamp(1.6rem, 4vw, 2.2rem);
       color: #8b5a6b;
@@ -297,47 +293,6 @@
       max-width: 400px;
       margin-bottom: 24px;
       font-style: italic;
-    }
-
-    .memory-cards {
-      position: relative;
-      width: 100%;
-      max-width: 500px;
-      min-height: 420px;
-      margin-bottom: 24px;
-    }
-
-    .memory-card {
-      position: absolute;
-      width: 115px;
-      height: 115px;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(139, 90, 107, 0.2);
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .memory-card:nth-child(1) { top: 2%; left: 8%; transform: rotate(-12deg); }
-    .memory-card:nth-child(2) { top: 5%; right: 5%; transform: rotate(9deg); }
-    .memory-card:nth-child(3) { top: 22%; left: 0; transform: rotate(-7deg); }
-    .memory-card:nth-child(4) { top: 18%; right: 10%; transform: rotate(5deg); }
-    .memory-card:nth-child(5) { top: 40%; left: 18%; transform: rotate(-3deg); }
-    .memory-card:nth-child(6) { top: 35%; right: 2%; transform: rotate(11deg); }
-    .memory-card:nth-child(7) { top: 55%; left: 3%; transform: rotate(-9deg); }
-    .memory-card:nth-child(8) { top: 58%; right: 15%; transform: rotate(4deg); }
-    .memory-card:nth-child(9) { top: 75%; left: 12%; transform: rotate(-6deg); }
-
-    .memory-card:hover {
-      transform: scale(1.12) rotate(0deg) !important;
-      box-shadow: 0 14px 36px rgba(139, 90, 107, 0.3);
-      z-index: 10;
-    }
-
-    .memory-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
 
     /* ===== Экран 4 — Будущее ===== */
@@ -687,29 +642,6 @@
         height: 120px;
       }
 
-      .memory-cards {
-        min-height: 520px;
-      }
-
-      .memory-card {
-        width: 85px;
-        height: 85px;
-      }
-
-      .memory-card:nth-child(1) { top: 0; left: 2%; transform: rotate(-7deg); }
-      .memory-card:nth-child(2) { top: 12%; right: 0; transform: rotate(5deg); }
-      .memory-card:nth-child(3) { top: 28%; left: 0; transform: rotate(-3deg); }
-      .memory-card:nth-child(4) { top: 24%; right: 5%; transform: rotate(6deg); }
-      .memory-card:nth-child(5) { top: 48%; left: 10%; transform: rotate(-4deg); }
-      .memory-card:nth-child(6) { top: 44%; right: 0; transform: rotate(4deg); }
-      .memory-card:nth-child(7) { top: 64%; left: 0; transform: rotate(-5deg); }
-      .memory-card:nth-child(8) { top: 68%; right: 8%; transform: rotate(3deg); }
-      .memory-card:nth-child(9) { top: 84%; left: 5%; transform: rotate(-2deg); }
-
-      .memory-card:hover {
-        transform: scale(1.1) rotate(0deg) !important;
-      }
-
       .future-list li {
         font-size: 1rem;
         padding: 10px 14px;
@@ -793,20 +725,20 @@
       <button class="btn btn-next" data-next="3">и я тебя очень люблю!</button>
     </section>
 
-    <!-- Экран 3 — Воспоминания (разбросаны, для фото добавь img внутрь) -->
+    <!-- Экран 3 — Воспоминания (как на экране 2) -->
     <section class="screen screen-3" data-screen="3">
       <h2 class="screen-heading">Наши моменты 💫</h2>
       <p class="screen-subtitle">Каждый миг и секунду проведённую с тобой я бы повторил снова и снова.</p>
-      <div class="memory-cards">
-        <div class="memory-card photo-clickable"><img src="moment1.jpeg" alt="" onerror="this.style.display='none'"></div>
-        <div class="memory-card photo-clickable"><img src="moment2.jpeg" alt="" onerror="this.style.display='none'"></div>
-        <div class="memory-card photo-clickable"><img src="moment3.jpeg" alt="" onerror="this.style.display='none'"></div>
-        <div class="memory-card photo-clickable"><img src="moment4.jpeg" alt="" onerror="this.style.display='none'"></div>
-        <div class="memory-card photo-clickable"><img src="moment5.jpeg" alt="" onerror="this.style.display='none'"></div>
-        <div class="memory-card photo-clickable"><img src="moment6.jpeg" alt="" onerror="this.style.display='none'"></div>
-        <div class="memory-card photo-clickable"><img src="moment7.jpeg" alt="" onerror="this.style.display='none'"></div>
-        <div class="memory-card photo-clickable"><img src="moment8.jpeg" alt="" onerror="this.style.display='none'"></div>
-        <div class="memory-card photo-clickable"><img src="moment9.jpeg" alt="" onerror="this.style.display='none'"></div>
+      <div class="photo-frames">
+        <div class="photo-frame polaroid photo-clickable"><img src="moment1.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">📷</span></div>
+        <div class="photo-frame photo-clickable"><img src="moment2.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💕</span></div>
+        <div class="photo-frame heart-style photo-clickable"><img src="moment3.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">🌸</span></div>
+        <div class="photo-frame photo-clickable"><img src="moment4.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">✨</span></div>
+        <div class="photo-frame polaroid photo-clickable"><img src="moment5.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💖</span></div>
+        <div class="photo-frame photo-clickable"><img src="moment6.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">❤️</span></div>
+        <div class="photo-frame photo-clickable"><img src="moment7.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💗</span></div>
+        <div class="photo-frame photo-clickable"><img src="moment8.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💓</span></div>
+        <div class="photo-frame heart-style photo-clickable"><img src="moment9.jpeg" alt="Момент" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="frame-placeholder" style="display:none;">💝</span></div>
       </div>
       <button class="btn btn-next" data-next="4">было очень хорошо!</button>
     </section>
