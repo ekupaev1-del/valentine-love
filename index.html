@@ -18,14 +18,38 @@
       font-family: 'Georgia', 'Times New Roman', serif;
     }
 
-    /* ===== Нежный розовый фон (без изменений) ===== */
+    /* ===== Живой фон с градиентом ===== */
     body {
-      background: #ffe4ec;
+      background: linear-gradient(135deg, #ffe4ec 0%, #ffd6e0 25%, #ffe8f0 50%, #ffdce6 75%, #ffe4ec 100%);
+      background-size: 400% 400%;
+      animation: bgGradient 15s ease infinite;
       position: relative;
       min-height: 100vh;
     }
 
-    /* ===== Контейнер для плавающих сердечек ===== */
+    @keyframes bgGradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* ===== Блёстки на фоне ===== */
+    .sparkle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      animation: sparkleFade 3s ease-in-out infinite;
+    }
+
+    @keyframes sparkleFade {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    /* ===== Контейнер падающих сердечек (30-50 шт) ===== */
     .hearts-container {
       position: fixed;
       top: 0;
@@ -39,20 +63,21 @@
 
     .floating-heart {
       position: absolute;
-      font-size: 22px;
-      opacity: 0.5;
-      animation: floatHeart 10s ease-in-out infinite;
+      font-size: var(--heart-size, 18px);
+      opacity: var(--heart-opacity, 0.4);
+      will-change: transform;
+      animation: floatHeart var(--heart-duration, 12s) ease-in-out forwards;
     }
 
     @keyframes floatHeart {
-      0%, 100% {
-        transform: translate(0, 100vh) rotate(0deg);
+      0% {
+        transform: translate(0, 100vh) rotate(0deg) scale(var(--heart-scale, 1));
         opacity: 0;
       }
-      8% { opacity: 0.5; }
-      92% { opacity: 0.5; }
+      5% { opacity: var(--heart-opacity, 0.4); }
+      95% { opacity: var(--heart-opacity, 0.4); }
       100% {
-        transform: translate(var(--drift-x, 50px), -50px) rotate(360deg);
+        transform: translate(var(--drift-x, 30px), -80px) rotate(360deg) scale(var(--heart-scale, 1));
         opacity: 0;
       }
     }
@@ -66,7 +91,7 @@
       overflow-x: hidden;
     }
 
-    /* ===== Общий стиль экранов ===== */
+    /* ===== Общий стиль экранов + анимация появления ===== */
     .screen {
       position: absolute;
       top: 0;
@@ -81,24 +106,46 @@
       text-align: center;
       opacity: 0;
       visibility: hidden;
-      transform: translateX(30px);
-      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
+      transform: translateY(20px) scale(0.97);
+      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                  visibility 0.5s;
+      will-change: opacity, transform;
     }
 
     .screen.active {
       opacity: 1;
       visibility: visible;
-      transform: translateX(0);
+      transform: translateY(0) scale(1);
       z-index: 5;
     }
 
     .screen.leaving {
       opacity: 0;
-      transform: translateX(-30px);
+      transform: translateY(-15px) scale(0.98);
     }
 
-    /* ===== Кнопки ===== */
+    /* Контент экрана появляется с лёгкой задержкой */
+    .screen.active .screen-content { animation: contentFadeIn 0.5s ease-out 0.05s both; }
+    .screen.active .screen-title { animation: contentFadeIn 0.5s ease-out 0.1s both; }
+    .screen.active .screen-heading { animation: contentFadeIn 0.5s ease-out 0.08s both; }
+    .screen.active .screen-subtitle { animation: contentFadeIn 0.5s ease-out 0.12s both; }
+    .screen.active .screen-text { animation: contentFadeIn 0.5s ease-out 0.08s both; }
+    .screen.active .photo-frames { animation: contentFadeIn 0.5s ease-out 0.15s both; }
+    .screen.active .future-list { animation: contentFadeIn 0.5s ease-out 0.12s both; }
+    .screen.active .future-instruction { animation: contentFadeIn 0.5s ease-out 0.1s both; }
+    .screen.active .video-wrapper { animation: contentFadeIn 0.5s ease-out 0.1s both; }
+    .screen.active .screen-final-text { animation: contentFadeIn 0.5s ease-out 0.08s both; }
+
+    @keyframes contentFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== Кнопки — живые ===== */
     .btn {
+      position: relative;
+      overflow: visible;
       padding: 16px 36px;
       font-size: 1.1rem;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -113,13 +160,48 @@
       margin-top: auto;
     }
 
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 28px rgba(200, 100, 130, 0.5);
+    .btn:hover, .btn:focus-visible {
+      transform: scale(1.06);
+      box-shadow: 0 10px 35px rgba(200, 100, 130, 0.55);
     }
 
     .btn:active {
       transform: scale(0.98);
+    }
+
+    /* Ripple-эффект при клике */
+    .btn-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: scale(0);
+      animation: ripple 0.6s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* Пульсация главных кнопок */
+    .btn-pulse {
+      animation: btnHeartbeat 2s ease-in-out infinite;
+    }
+
+    .btn-final.btn-pulse {
+      animation: btnHeartbeat 1.8s ease-in-out infinite;
+    }
+
+    @keyframes btnHeartbeat {
+      0%, 100% { transform: scale(1); box-shadow: 0 6px 20px rgba(200, 100, 130, 0.4); }
+      50% { transform: scale(1.02); box-shadow: 0 8px 28px rgba(200, 100, 130, 0.5); }
+    }
+
+    .btn:hover.btn-pulse, .btn:active.btn-pulse {
+      animation: none;
     }
 
     /* ===== Экран 1 — Старт ===== */
@@ -151,16 +233,17 @@
       background: #fff;
       box-shadow: 0 10px 40px rgba(139, 90, 107, 0.25);
       border: 5px solid rgba(255, 255, 255, 0.95);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
+      transform-style: preserve-3d;
     }
 
-    .screen-1 .start-photo:hover {
-      transform: scale(1.03);
-      box-shadow: 0 14px 50px rgba(139, 90, 107, 0.3);
+    .screen-1 .start-photo:hover, .screen-1 .start-photo:active {
+      transform: scale(1.05) perspective(500px) rotateX(2deg) rotateY(-2deg);
+      box-shadow: 0 18px 55px rgba(139, 90, 107, 0.35);
     }
 
     .screen-1 .start-photo img {
@@ -223,8 +306,9 @@
       align-items: center;
       justify-content: center;
       border: 4px solid rgba(255, 255, 255, 0.9);
-      transition: transform 0.3s ease;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
       position: relative;
+      transform-style: preserve-3d;
     }
 
     .photo-frame:nth-child(1) { transform: rotate(-4deg); }
@@ -237,9 +321,9 @@
     .photo-frame:nth-child(8) { transform: rotate(4deg); }
     .photo-frame:nth-child(9) { transform: rotate(-2deg); }
 
-    .photo-frame:hover {
-      transform: scale(1.08) rotate(0deg) !important;
-      box-shadow: 0 10px 30px rgba(139, 90, 107, 0.25);
+    .photo-frame:hover, .photo-frame:active {
+      transform: scale(1.1) rotate(0deg) perspective(400px) rotateX(-3deg) rotateY(2deg) !important;
+      box-shadow: 0 14px 40px rgba(139, 90, 107, 0.3);
     }
 
     .photo-frame.polaroid {
@@ -330,11 +414,12 @@
       font-size: 1.1rem;
       color: #5c4a4a;
       text-align: left;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .future-list li:hover {
-      transform: translateX(6px);
+    .future-list li:hover, .future-list li:active {
+      transform: translateX(8px);
+      box-shadow: 0 6px 24px rgba(139, 90, 107, 0.15);
     }
 
     .future-list .future-photo {
@@ -489,6 +574,12 @@
       box-shadow: 0 12px 40px rgba(139, 90, 107, 0.25);
       background: #1a1a1a;
       margin-bottom: 16px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .screen-5 .video-wrapper:hover {
+      transform: scale(1.02);
+      box-shadow: 0 16px 50px rgba(139, 90, 107, 0.35);
     }
 
     .screen-5 .video-wrapper video {
@@ -626,6 +717,36 @@
       cursor: pointer;
     }
 
+    /* ===== Контейнер частиц при кликах ===== */
+    .click-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .click-heart {
+      position: absolute;
+      font-size: 16px;
+      animation: clickHeartFly 1s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes clickHeartFly {
+      0% {
+        transform: translate(0, 0) scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+      }
+    }
+
     /* ===== Адаптивность ===== */
     @media (max-width: 480px) {
       .screen {
@@ -684,6 +805,19 @@
         padding: 12px;
       }
     }
+
+    /* ===== Оптимизация для мобильных ===== */
+    @media (max-width: 768px) {
+      .floating-heart { animation-duration: 14s !important; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -699,7 +833,7 @@
         <div class="start-photos">
           <div class="start-photo photo-clickable"><img src="start1.jpeg" alt="Наше фото" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="photo-placeholder" style="display:none;">💖</span></div>
         </div>
-        <button class="btn btn-next" data-next="2">если любишь меня то жми сюда!</button>
+        <button class="btn btn-next btn-pulse" data-next="2">если любишь меня то жми сюда!</button>
       </div>
     </section>
 
@@ -757,7 +891,7 @@
         <li class="future-item-clickable" data-confession="grow"><div class="future-photo photo-clickable"><img src="future4.jpeg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="photo-placeholder" style="display:none;">🌱</span></div><span class="future-heart">💕</span> Расти вместе</li>
         <li class="future-item-clickable" data-confession="love"><div class="future-photo photo-clickable"><img src="future5.jpeg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="photo-placeholder" style="display:none;">❤️</span></div><span class="future-heart">💕</span> Любить всегда</li>
       </ul>
-      <button class="btn btn-next" data-next="5">и я хочу!</button>
+      <button class="btn btn-next btn-pulse" data-next="5">и я хочу!</button>
     </section>
 
     <!-- Экран 5 — Финал с видео -->
@@ -777,7 +911,7 @@
           <source src="love.mp4" type="video/mp4">
         </video>
       </div>
-      <button class="btn btn-final btn-final-trigger">Я тебя люблю</button>
+      <button class="btn btn-final btn-final-trigger btn-pulse">Я тебя люблю</button>
     </section>
   </div>
 
@@ -803,23 +937,75 @@
   <!-- Контейнер для фейерверков -->
   <div class="fireworks-container" id="fireworksContainer"></div>
 
+  <!-- Контейнер для частиц при кликах -->
+  <div class="click-particles" id="clickParticles"></div>
+
   <script>
-    // ===== Конфигурация =====
+    // ===== Конфигурация анимаций =====
     const HEARTS = ['❤️', '💖', '💕', '💗', '💓', '💝'];
-    const FLOATING_HEARTS_COUNT = 10;
+    const FLOATING_HEARTS_COUNT = 40;
     const FIREWORK_HEARTS_COUNT = 40;
+    const CLICK_HEARTS_COUNT = 8;
 
     // ===== Элементы DOM =====
-    const screens = document.querySelectorAll('.screen');
     const foreverOverlay = document.getElementById('foreverOverlay');
     const fireworksContainer = document.getElementById('fireworksContainer');
     const heartsContainer = document.getElementById('heartsContainer');
+    const clickParticles = document.getElementById('clickParticles');
+
+    // ===== Частицы при клике (5-10 сердечек) =====
+    function spawnClickHearts(x, y) {
+      if (!clickParticles) return;
+      const count = 5 + Math.floor(Math.random() * 5);
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'click-heart';
+        heart.textContent = HEARTS[Math.floor(Math.random() * HEARTS.length)];
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        const angle = (Math.PI * 2 * i) / count + Math.random();
+        const dist = 40 + Math.random() * 60;
+        heart.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+        heart.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+        clickParticles.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+      }
+    }
+
+    // ===== Ripple-эффект на кнопках =====
+    function createRipple(e, btn) {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      ripple.style.width = ripple.style.height = '20px';
+      ripple.style.marginLeft = ripple.style.marginTop = '-10px';
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    // ===== Лёгкая вибрация (если поддерживается) =====
+    function triggerHaptic() {
+      if ('vibrate' in navigator) navigator.vibrate(10);
+    }
+
+    // ===== Универсальный обработчик клика по кнопкам =====
+    function setupButtonEffects(btn) {
+      if (!btn) return;
+      btn.addEventListener('click', (e) => {
+        createRipple(e, btn);
+        spawnClickHearts(e.clientX, e.clientY);
+        triggerHaptic();
+      });
+    }
 
     // ===== Навигация по экранам =====
     function goToScreen(nextNum) {
       const currentScreen = document.querySelector('.screen.active');
       const nextScreen = document.querySelector(`.screen[data-screen="${nextNum}"]`);
-
       if (!currentScreen || !nextScreen) return;
 
       currentScreen.classList.add('leaving');
@@ -832,6 +1018,7 @@
     }
 
     document.querySelectorAll('.btn-next').forEach(btn => {
+      setupButtonEffects(btn);
       btn.addEventListener('click', () => {
         const next = parseInt(btn.dataset.next, 10);
         goToScreen(next);
@@ -849,14 +1036,17 @@
     }
 
     // ===== Кнопка "Я тебя люблю": видео + фейерверки + оверлей =====
-    document.querySelector('.btn-final-trigger').addEventListener('click', (e) => {
-      startLoveVideo();
+    const btnFinal = document.querySelector('.btn-final-trigger');
+    if (btnFinal) {
+      setupButtonEffects(btnFinal);
+      btnFinal.addEventListener('click', (e) => {
+        startLoveVideo();
 
-      const btn = e.target.closest('.btn-final-trigger') || e.target;
-      const x = btn.getBoundingClientRect().left + btn.offsetWidth / 2;
-      const y = btn.getBoundingClientRect().top + btn.offsetHeight / 2;
+        const btn = e.target.closest('.btn-final-trigger') || e.target;
+        const x = btn.getBoundingClientRect().left + btn.offsetWidth / 2;
+        const y = btn.getBoundingClientRect().top + btn.offsetHeight / 2;
 
-      for (let i = 0; i < FIREWORK_HEARTS_COUNT; i++) {
+        for (let i = 0; i < FIREWORK_HEARTS_COUNT; i++) {
         const heart = document.createElement('div');
         heart.className = 'firework-heart';
         heart.textContent = HEARTS[Math.floor(Math.random() * HEARTS.length)];
@@ -875,28 +1065,57 @@
         setTimeout(() => heart.remove(), 1800);
       }
       setTimeout(() => foreverOverlay.classList.add('visible'), 300);
-    });
+      });
+    }
 
-    // ===== Плавающие сердечки =====
-    function createSingleHeart() {
+    // ===== Плавающие сердечки (40 шт, разный размер/скорость/прозрачность) =====
+    function createFallingHeart() {
+      if (!heartsContainer) return;
       const heart = document.createElement('div');
       heart.className = 'floating-heart';
       heart.textContent = HEARTS[Math.floor(Math.random() * HEARTS.length)];
-      heart.style.left = Math.random() * 100 + '%';
-      heart.style.animationDelay = Math.random() * 3 + 's';
-      heart.style.animationDuration = (8 + Math.random() * 4) + 's';
-      heart.style.setProperty('--drift-x', (Math.random() * 180 - 90) + 'px');
+
+      const size = 12 + Math.random() * 20;
+      const duration = 10 + Math.random() * 8;
+      const opacity = 0.2 + Math.random() * 0.35;
+      const scale = 0.7 + Math.random() * 0.6;
+      const startX = Math.random() * 100;
+      const driftX = (Math.random() - 0.5) * 120;
+
+      heart.style.setProperty('--heart-size', size + 'px');
+      heart.style.setProperty('--heart-duration', duration + 's');
+      heart.style.setProperty('--heart-opacity', opacity);
+      heart.style.setProperty('--heart-scale', scale);
+      heart.style.setProperty('--drift-x', driftX + 'px');
+      heart.style.left = startX + '%';
+      heart.style.animationDelay = Math.random() * 2 + 's';
+
       heartsContainer.appendChild(heart);
 
       setTimeout(() => {
         heart.remove();
-        createSingleHeart();
-      }, 12000);
+        createFallingHeart();
+      }, (duration + 1) * 1000);
     }
 
     for (let i = 0; i < FLOATING_HEARTS_COUNT; i++) {
-      setTimeout(createSingleHeart, i * 700);
+      setTimeout(createFallingHeart, i * 400);
     }
+
+    // ===== Блёстки на фоне =====
+    function createSparkles() {
+      const count = 15;
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement('div');
+        s.className = 'sparkle';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.animationDelay = Math.random() * 3 + 's';
+        s.style.animationDuration = (2 + Math.random() * 2) + 's';
+        document.body.appendChild(s);
+      }
+    }
+    createSparkles();
 
     // ===== Лайтбокс: клик по фото открывает его =====
     const photoLightbox = document.getElementById('photoLightbox');
@@ -910,6 +1129,7 @@
       const img = clickable.querySelector('img');
       if (!img || !img.src || img.style.display === 'none') return;
 
+      spawnClickHearts(e.clientX, e.clientY);
       lightboxImg.src = img.src;
       photoLightbox.classList.add('visible');
     });
@@ -977,6 +1197,7 @@
     document.querySelectorAll('.future-item-clickable').forEach(item => {
       item.addEventListener('click', (e) => {
         if (e.target.closest('.future-photo')) return;
+        spawnClickHearts(e.clientX, e.clientY);
         const id = item.dataset.confession;
         if (CONFESSIONS[id]) {
           confessionModalText.textContent = CONFESSIONS[id];
@@ -989,6 +1210,7 @@
       confessionModal.classList.remove('visible');
     }
 
+    setupButtonEffects(confessionModalClose);
     confessionModalClose.addEventListener('click', closeConfessionModal);
     confessionModal.addEventListener('click', (e) => {
       if (e.target === confessionModal) closeConfessionModal();
