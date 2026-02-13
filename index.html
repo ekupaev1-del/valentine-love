@@ -543,65 +543,6 @@
       display: block;
     }
 
-    .screen-5 .video-play-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.5);
-      cursor: pointer;
-      transition: opacity 0.3s ease;
-    }
-
-    .screen-5 .video-play-overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .screen-5 .video-play-btn {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background: rgba(232, 160, 184, 0.9);
-      border: 4px solid white;
-      color: white;
-      font-size: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s ease;
-    }
-
-    .screen-5 .video-play-overlay:hover .video-play-btn {
-      transform: scale(1.1);
-    }
-
-    .screen-5 .video-error {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      text-align: center;
-      color: #8b5a6b;
-      font-size: 1rem;
-      line-height: 1.7;
-      background: rgba(255, 255, 255, 0.98);
-    }
-
-    .screen-5 .video-error.hidden {
-      display: none;
-    }
-
     .screen-5 .btn-final {
       background: linear-gradient(145deg, #c97b8b, #b86a7a);
       font-size: 1.2rem;
@@ -670,43 +611,6 @@
         transform: translate(var(--tx), var(--ty)) scale(1);
         opacity: 0;
       }
-    }
-
-    /* ===== Музыкальный плеер (опционально) ===== */
-    .music-player {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 12px 18px;
-      border-radius: 50px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      opacity: 0;
-      transition: opacity 0.5s ease 0.5s;
-    }
-
-    .music-player.visible {
-      opacity: 1;
-    }
-
-    .music-toggle {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: none;
-      background: linear-gradient(145deg, #e8a0b8, #d4849a);
-      color: white;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .music-toggle:hover {
-      transform: scale(1.1);
     }
 
     /* ===== Лайтбокс для просмотра фото ===== */
@@ -847,12 +751,6 @@
       .screen {
         padding: 12px;
       }
-
-      .music-player {
-        bottom: 12px;
-        right: 12px;
-        padding: 10px 14px;
-      }
     }
   </style>
 </head>
@@ -938,22 +836,14 @@
         Моё всё.
       </p>
       <div class="video-wrapper">
-        <video id="loveVideo" muted loop playsinline preload="auto" controls>
+        <video id="loveVideo"
+               playsinline
+               preload="auto"
+               controls
+               loop
+               style="width:100%; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.15);">
           <source src="love.mp4" type="video/mp4">
-          <source src="love.mov" type="video/quicktime">
         </video>
-        <div class="video-play-overlay" id="videoPlayOverlay">
-          <div class="video-play-btn">▶</div>
-        </div>
-        <div class="video-error" id="videoError">
-          <div>
-            <strong>Видео не найдено</strong><br><br>
-            1. Конвертируй видео в MP4<br>
-            2. Назови файл <strong>love.mp4</strong><br>
-            3. Положи в папку <strong>valentine/</strong> (рядом с index.html)<br><br>
-            <small>Путь: valentine/love.mp4</small>
-          </div>
-        </div>
       </div>
       <button class="btn btn-final btn-final-trigger">Я тебя люблю</button>
     </section>
@@ -981,16 +871,6 @@
   <!-- Контейнер для фейерверков -->
   <div class="fireworks-container" id="fireworksContainer"></div>
 
-  <!-- Музыкальный плеер (добавьте src="music.mp3" в audio) -->
-  <div class="music-player" id="musicPlayer">
-    <button class="music-toggle" id="musicToggle" title="Музыка">🎵</button>
-    <span style="font-size: 0.85rem; color: #8b5a6b;">Музыка</span>
-  </div>
-
-  <audio id="bgMusic" loop>
-    <source src="" type="audio/mpeg">
-  </audio>
-
   <script>
     // ===== Конфигурация =====
     const HEARTS = ['❤️', '💖', '💕', '💗', '💓', '💝'];
@@ -1002,9 +882,6 @@
     const foreverOverlay = document.getElementById('foreverOverlay');
     const fireworksContainer = document.getElementById('fireworksContainer');
     const heartsContainer = document.getElementById('heartsContainer');
-    const musicPlayer = document.getElementById('musicPlayer');
-    const musicToggle = document.getElementById('musicToggle');
-    const bgMusic = document.getElementById('bgMusic');
 
     // ===== Навигация по экранам =====
     function goToScreen(nextNum) {
@@ -1026,30 +903,24 @@
       btn.addEventListener('click', () => {
         const next = parseInt(btn.dataset.next, 10);
         goToScreen(next);
-
-        // Показываем плеер после первого перехода
-        if (next >= 2) {
-          musicPlayer.classList.add('visible');
-        }
-
-        // Запускаем видео при переходе на экран 5
-        if (next === 5) {
-          const video = document.getElementById('loveVideo');
-          const overlay = document.getElementById('videoPlayOverlay');
-          if (video) {
-            video.play().then(() => {
-              if (overlay) overlay.classList.add('hidden');
-            }).catch(() => {
-              if (overlay) overlay.classList.remove('hidden');
-            });
-          }
-        }
       });
     });
 
-    // ===== Кнопка "Я тебя люблю": фейерверки + оверлей =====
+    // ===== Запуск видео (после пользовательского клика) =====
+    function startLoveVideo() {
+      const video = document.getElementById('loveVideo');
+      if (video) {
+        video.currentTime = 0;
+        video.load();
+        video.play().catch(err => console.log('Video error:', err));
+      }
+    }
+
+    // ===== Кнопка "Я тебя люблю": видео + фейерверки + оверлей =====
     document.querySelector('.btn-final-trigger').addEventListener('click', (e) => {
-      const btn = e.target;
+      startLoveVideo();
+
+      const btn = e.target.closest('.btn-final-trigger') || e.target;
       const x = btn.getBoundingClientRect().left + btn.offsetWidth / 2;
       const y = btn.getBoundingClientRect().top + btn.offsetHeight / 2;
 
@@ -1073,41 +944,6 @@
       }
       setTimeout(() => foreverOverlay.classList.add('visible'), 300);
     });
-
-    // ===== Видео: клик по оверлею для воспроизведения =====
-    const videoPlayOverlay = document.getElementById('videoPlayOverlay');
-    const loveVideo = document.getElementById('loveVideo');
-    const videoError = document.getElementById('videoError');
-
-    if (videoPlayOverlay && loveVideo) {
-      videoPlayOverlay.addEventListener('click', () => {
-        loveVideo.play().then(() => {
-          videoPlayOverlay.classList.add('hidden');
-        }).catch(() => {});
-      });
-    }
-
-    if (loveVideo && videoError) {
-      loveVideo.addEventListener('loadeddata', () => {
-        videoError.classList.add('hidden');
-      });
-      loveVideo.addEventListener('canplay', () => {
-        videoError.classList.add('hidden');
-      });
-      loveVideo.addEventListener('play', () => {
-        videoError.classList.add('hidden');
-      });
-      loveVideo.addEventListener('error', () => {
-        videoError.classList.remove('hidden');
-        if (videoPlayOverlay) videoPlayOverlay.style.display = 'none';
-      });
-      // Если через 1 сек видео не загрузилось — показываем инструкцию
-      setTimeout(() => {
-        if (loveVideo.readyState < 2) {
-          videoError.classList.remove('hidden');
-        }
-      }, 1500);
-    }
 
     // ===== Плавающие сердечки =====
     function createSingleHeart() {
@@ -1231,16 +1067,6 @@
       }
     });
 
-    // ===== Музыка =====
-    musicToggle.addEventListener('click', () => {
-      if (bgMusic.paused) {
-        bgMusic.play().catch(() => {});
-        musicToggle.textContent = '🔊';
-      } else {
-        bgMusic.pause();
-        musicToggle.textContent = '🎵';
-      }
-    });
   </script>
 </body>
 </html>
